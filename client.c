@@ -8,7 +8,7 @@
 #include "protocol.h"
 
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 8888
+#define SERVER_PORT 4953
 
 char current_user[USERNAME_SIZE];
 
@@ -71,7 +71,8 @@ int main() {
 
     printf("=== Chat started (type /quit to exit) ===\n");
 
-    while (1) {
+    while (1) 
+    {
         FD_ZERO(&read_fds);
         FD_SET(sockfd, &read_fds);
         FD_SET(STDIN_FILENO, &read_fds);
@@ -79,21 +80,25 @@ int main() {
         int maxfd = sockfd > STDIN_FILENO ? sockfd : STDIN_FILENO;
 
         int activity = select(maxfd + 1, &read_fds, NULL, NULL, NULL);
-        if (activity < 0) {
+        if (activity < 0) 
+	{
             perror("select");
             break;
         }
 
-        if (FD_ISSET(sockfd, &read_fds)) {
+        if (FD_ISSET(sockfd, &read_fds)) 
+	{
             Packet pkt;
             int n = recv(sockfd, &pkt, sizeof(pkt), 0);
-            if (n <= 0) {
+            if (n <= 0) 
+	    {
                 printf("Disconnected from server.\n");
                 break;
             }
 
-            if (pkt.command == MESSAGE) {
-                pkt.data[MAX_MESSAGE_SIZE - 1] = 0; // đảm bảo chuỗi kết thúc
+            if (pkt.command == MESSAGE) 
+	    {
+                pkt.data[MAX_MESSAGE_SIZE - 1] = 0; // make sure chuoi da ket thuc
                 
 		char sender[USERNAME_SIZE];
 		sscanf(pkt.data, "%31[^:]", sender);
@@ -107,20 +112,23 @@ int main() {
 			printf("%*s\n", space + len, pkt.data);
 		}else {
 			
-                       printf("%s\n", pkt.data); // đã có sẵn dấu newline khi lưu/truyền
+                       printf("%s\n", pkt.data); 
 		}
 		fflush(stdout);
             }
         }
 
-        if (FD_ISSET(STDIN_FILENO, &read_fds)) {
-            if (!fgets(input_buf, sizeof(input_buf), stdin)) {
+        if (FD_ISSET(STDIN_FILENO, &read_fds)) 
+	{
+            if (!fgets(input_buf, sizeof(input_buf), stdin)) 
+	    {
                 printf("Input error.\n");
                 break;
             }
             input_buf[strcspn(input_buf, "\n")] = 0;
 
-            if (strcmp(input_buf, "/quit") == 0) {
+            if (strcmp(input_buf, "/quit") == 0) 
+	    {
                 printf("Exiting...\n");
                 break;
             }
@@ -128,8 +136,7 @@ int main() {
             Packet pkt;
             pkt.command = MESSAGE;
             memset(pkt.data, 0, sizeof(pkt.data));
-            // Đảm bảo gửi kèm dấu newline để hiển thị đẹp khi server broadcast
-            snprintf(pkt.data, MAX_MESSAGE_SIZE, " [%s] \n", input_buf);
+            snprintf(pkt.data, MAX_MESSAGE_SIZE, " [%s]\n", input_buf);
             send(sockfd, &pkt, sizeof(pkt), 0);
         }
     }
