@@ -6,18 +6,18 @@
 #define PASSWORD_SIZE 32
 #define MAX_MESSAGE_SIZE 512
 
-// Các lệnh/command trong gói tin
+
 typedef enum {
-    LOGIN = 1,       // Client gửi username+password đăng nhập
-    LOGIN_SUCCESS,   // Server trả lời đăng nhập thành công
-    LOGIN_FAIL,      // Server trả lời đăng nhập thất bại
-    MESSAGE          // Tin nhắn chat
+    LOGIN = 1,       // Client gui username va pass de dang nhap
+    LOGIN_SUCCESS,   // Server tra loi dang nhap thanh cong
+    LOGIN_FAIL,      // Server tra loi dang nhap that bai
+    MESSAGE          
 } Command;
 
-// Cấu trúc gói tin đơn giản
+// Cau truc goi tin
 typedef struct {
-    int command;                // Loại lệnh
-    char data[MAX_MESSAGE_SIZE];// Dữ liệu (username+password hoặc tin nhắn)
+    int command;                // Loai lenh
+    char data[MAX_MESSAGE_SIZE];// Data (username+password hoac tin nhan)
 } Packet;
 
 #endif
