@@ -37,111 +37,52 @@ ChatApp Documentation
   - Sử dụng `select()` để multiplex I/O trên server (multi-client chat)
   - Xác thực người dùng đơn giản bằng tài khoản cứng.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  2.2. Công nghệ sử dụng
 
-| Thành phần | Công nghệ      |
-| ---------- | -------------- |
-| Ngôn ngữ   | C              |
-| Giao tiếp  | TCP Socket     |
-| Xử lý I/O  | `select()`     |
-| OS hỗ trợ  | Ubuntu / Linux |
+ - Ngôn ngữ: C              
+ - Giao tiếp: TCP Socket     
+ - Xử lý I/O:  `select()`   
+ - OS hỗ trợ: Ubuntu / Linux 
 
-#### 2.3. Thư viện chuẩn sử dụng
+ 2.3. Thư viện chuẩn sử dụng
 
-* `<stdio.h>`, `<stdlib.h>`, `<string.h>`, `<unistd.h>`, `<sys/socket.h>`, `<netinet/in.h>`, `<arpa/inet.h>`, `<fcntl.h>`, `<sys/select.h>`
+ `<stdio.h>`, `<stdlib.h>`, `<string.h>`, `<unistd.h>`, `<sys/socket.h>`, `<netinet/in.h>`, `<arpa/inet.h>`, `<fcntl.h>`, `<sys/select.h>`
 
----
 
-### 3. 🧩 Diagrams
 
-#### 3.1. Sequence Diagram: Gửi tin nhắn từ Client A đến Client B
+ 3. Diagrams
 
-```plaintext
-Client A         Server             Client B
-   |                |                  |
-[Login] --------->  |                  |
-                    | <---- Verify ---|
-                    |                 |
-[Send msg] -------> |                 |
-                    | --- Broadcast --------> [Receive msg]
-```
+   3.1. Sequence Diagram: Gửi tin nhắn từ Client A đến Client B
 
-#### 3.2. Sơ đồ luồng dữ liệu cơ bản
 
-```mermaid
-flowchart TD
-    subgraph Server
-        S1[Accept Client]
-        S2[Check login]
-        S3[Receive message]
-        S4[Broadcast to all]
-    end
 
-    subgraph Client
-        C1[Login with fixed creds]
-        C2[Send message]
-        C3[Receive message]
-    end
 
-    C1 --> S1 --> S2 --> C2 --> S3 --> S4 --> C3
-```
+   3.2. Sơ đồ luồng dữ liệu cơ bản
 
----
 
-### 4. 📁 Folder Structure
 
-```bash
+ 4.Folder Structure
+
+##bash
+
 chatapp/
-├── server.c           # Server-side code
-├── client.c           # Client-side code
-├── user_db.txt          # (Optional) Danh sách tài khoản
-├── chat_history.txt   # Ghi lại lịch sử chat (server tạo)
+├── server.c         
+├── client.c    
+├── protocol.h      
+├── user_db.txt        
+├── chat_history.txt  
 ├── chat_log.txt
 ├── Makefile
-├── README.md          # Tài liệu mô tả
-
-
----
-
- 5. Cách biên dịch và chạy
-
-Server:
-
-##bash:
-gcc server.c -o server
-./server <port>
-
-
- Client:
-
-##bash:
-gcc client.c -o client
-./client <server_ip> <port>
+├── README.md          
 
 
 
 
 
-### 7. 📝 Ghi chú
 
-* Server sử dụng `select()` để hỗ trợ nhiều kết nối không đồng bộ.
-* Tài khoản người dùng hiện tại được viết cứng trong code (`username == "user" && password == "pass"`).
-* Server lưu lịch sử chat trong file `chat_history.txt`.
+
+
+
+
 
 
