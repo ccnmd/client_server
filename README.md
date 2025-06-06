@@ -4,7 +4,7 @@ C-based client-server chat application for Ubuntu 22.04, supporting concurrent u
 
 
 
-# Cach bien dich va chay:
+# How to run:
   ## bash: 
        make
   
@@ -20,5 +20,7 @@ C-based client-server chat application for Ubuntu 22.04, supporting concurrent u
        #user name:  user2
        #password:   pass2
   ## Terminal ...
-
   ...
+
+
+Note: All terninals are opened in the same folder of this project.
