@@ -5,7 +5,7 @@ C-based client-server chat application for Ubuntu 22.04, supporting concurrent u
 
 
 # Cach bien dich va chay:
-  ##bash: 
+  ## bash: 
        make
   
   ## Terminal 1:
